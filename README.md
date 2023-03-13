@@ -1,1 +1,39 @@
-# UMIL
+This is an official implementation of UMIL. 
+
+    
+# Environment Setup
+To set up the environment, you can easily run the following command:
+```
+conda create -n UMIL python=3.7
+conda activate UMIL
+pip install -r requirements.txt
+```
+
+Install Apex as follows
+```
+git clone https://github.com/NVIDIA/apex
+cd apex
+pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+```
+
+# Data Preparation
+
+Download the videos and labels for UCF-crime or TAD dataset and extract frames from videos.
+
+
+# Train
+The config files lie in `configs`. For example, to train X-CLIP-B/32 with 5 frames on UCF on 2 GPUs, you can run
+```
+CUDA_VISIBLE_DEVICES=0,1 bash tools/dist_train_recognizer.sh 2
+```
+
+**Note:**
+- The test during training is a fast test strategy, it does not represent the real AUC.
+- Please specify the data path in config file(`configs/*.yaml`). Also, you can set them by attaching an argument `--opts DATA.ROOT /PATH/TO/videos DATA.TRAIN_FILE /PATH/TO/train.txt DATA.VAL_FILE /PATH/TO/val.txt`. Note that if you use the tar file(`videos.tar`), just set the `DATA.ROOT` to `/PATH/TO/videos.tar`. For standard folder, set that to `/PATH/TO/videos` naturally.
+- The pretrained model will be automatically downloaded. Of course, you can specify it by using `--pretrained /PATH/TO/PRETRAINED`.
+
+# Test
+For example, to test the X-CLIP-B/32 with 5 frames on UCF, you can run
+```
+CUDA_VISIBLE_DEVICES=1 bash tools/dist_test_recognizer.sh 1
+```
