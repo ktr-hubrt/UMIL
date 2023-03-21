@@ -37,3 +37,13 @@ For example, to test the X-CLIP-B/32 with 5 frames on UCF, you can run
 ```
 CUDA_VISIBLE_DEVICES=1 bash tools/dist_test_recognizer.sh 1
 ```
+
+If you find this work helpful, please cite:
+```
+@inproceedings{Lv2023unbiased,
+title={Unbiased Multiple Instance Learning for Weakly Supervised Video Anomaly Detection},
+author={Hui Lv, Zhongqi Yue, Qianru Sun, Bin Luo, Zhen Cui, Hanwang Zhang},
+booktitle={CVPR},
+year={2023}
+}
+```
