@@ -42,7 +42,7 @@ If you find this work helpful, please cite:
 ```
 @inproceedings{Lv2023unbiased,
 title={Unbiased Multiple Instance Learning for Weakly Supervised Video Anomaly Detection},
-author={Hui Lv, Zhongqi Yue, Qianru Sun, Bin Luo, Zhen Cui, Hanwang Zhang},
+author={Hui Lv and Zhongqi Yue and Qianru Sun and Bin Luo and Zhen Cui and Hanwang Zhang},
 booktitle={CVPR},
 year={2023}
 }
