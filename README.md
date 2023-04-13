@@ -20,6 +20,7 @@ pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp
 
 Download the videos and labels for UCF-crime or TAD dataset and extract frames from videos.
 The dataset directory should be origanized as follows: 
+```
 $ tree UCF
 UCF/
 ├─ frames/    
@@ -34,7 +35,7 @@ TAD/
         ...
     ├─ normal/ 
         ...
-
+```
 
 # Train
 The config files lie in `configs`. For example, to train X-CLIP-B/32 with 5 frames on UCF on 2 GPUs, you can run
