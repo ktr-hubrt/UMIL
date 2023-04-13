@@ -97,9 +97,17 @@ def main(config):
                 scores_dict = mmcv.load(out_path)
             else:
                 scores_dict = validate(test_loader, text_labels, model, config, out_path)
+
             tmp_dict = {}
-            for v_name in scores_dict["cls"].keys():
-                tmp_dict[v_name] = [np.array(scores_dict["prd"][v_name])[:,0] + args.w_cls * (1-np.array(scores_dict["cls"][v_name])[:,0])] #1,32,2 np.array(scores_dict["prd"][v_name])[:,0] +
+            for v_name in scores_dict["prd"].keys():
+                p_scores = np.array(scores_dict["prd"][v_name]).copy()
+                if p_scores.shape[0] == 1:
+                    # 1,32,2
+                    tmp_dict[v_name] = [p_scores[0, :, 1]]
+                else:
+                    # T,1,2
+                    tmp_dict[v_name] = [p_scores[:, 0, 1]]
+
             auc_all, auc_ano = evaluate_result(tmp_dict, config.DATA.VAL_FILE)
 
             logger.info(f"AUC@all/ano of version {out_path.split('/')[-2]} on epoch {out_path.split('/')[-1].split('_')[-1][:-4]} : {auc_all:.4f}({auc_ano:.4f})")
@@ -128,8 +136,14 @@ def main(config):
         scores_dict = validate(val_loader, text_labels, model, config, out_path)
 
         tmp_dict = {}
-        for v_name in scores_dict["cls"].keys():
-            tmp_dict[v_name] = [scores_dict["prd"][v_name][0] + args.w_cls * scores_dict["cls"][v_name][0]]
+        for v_name in scores_dict["prd"].keys():
+            p_scores = np.array(scores_dict["prd"][v_name]).copy()
+            if p_scores.shape[0] == 1:
+                # 1,32,2
+                tmp_dict[v_name] = [p_scores[0, :, 1]]
+            else:
+                # T,1,2
+                tmp_dict[v_name] = [p_scores[:, 0, 1]]
         auc_all, auc_ano = evaluate_result(tmp_dict, config.DATA.VAL_FILE)
         is_best = auc_all > max_auc
         max_auc = max(max_auc, auc_all)
@@ -280,14 +294,21 @@ def validate(data_loader, text_labels, model, config, out_path):
                 if v_name not in scores_dict['prd']:
                     scores_dict['prd'][v_name] = []
                 scores_dict['prd'][v_name].append(scores_np_prd[ind])
-            if idx % 500 == 0 and len(data_loader) >= 500:
+            if idx % 100 == 0 and len(data_loader) >= 100:
                 logger.info(
                     f'Test: [{idx}/{len(data_loader)}]\t'
-                    f'Vid: {v_name}\t'
-                    f'prd: [{np.max(scores_dict["prd"][v_name]):.3f}/{np.mean(scores_dict["prd"][v_name][0][:,1]):.3f}]\t'
                 )
+    tmp_dict = {}
+    for v_name in scores_dict["prd"].keys():
+        p_scores = np.array(scores_dict["prd"][v_name]).copy()
+        if p_scores.shape[0] == 1:
+            # 1,T,2
+            tmp_dict[v_name] = [p_scores[0, :, 1]]
+        else:
+            # T,1,2
+            tmp_dict[v_name] = [p_scores[:, 0, 1]]
 
-    auc_all_p, auc_ano_p = evaluate_result(scores_dict["prd"], config.DATA.VAL_FILE)
+    auc_all_p, auc_ano_p = evaluate_result(tmp_dict, config.DATA.VAL_FILE)
 
     logger.info(
         f'AUC: [{auc_all_p:.3f}/{auc_ano_p:.3f}]\t'
