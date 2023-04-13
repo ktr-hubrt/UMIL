@@ -1,0 +1,7 @@
+mmcv-full
+decord
+ftfy
+einops
+termcolor
+timm
+regex
