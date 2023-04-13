@@ -1,4 +1,4 @@
-This is an official implementation of UMIL. 
+This is an official implementation of CVPR23 paper 'Unbiased Multiple Instance Learning for Weakly Supervised Video Anomaly Detection' (https://arxiv.org/abs/2303.12369v1). 
 
     
 # Environment Setup
