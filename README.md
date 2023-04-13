@@ -38,7 +38,7 @@ TAD/
         ...
 ```
 # Pre-trained model weights
-please find the model weights in the following:
+Please find the model weights in the following:
 > [**k400 pre-trained weights**](https://smu-my.sharepoint.com/:u:/g/personal/huilyu_smu_edu_sg/ESDZwxBmIAdLqJBuDwhU-YIB1kn7MNEQ0CEGAkkUSwfPkA?e=7dpMd5)
 
 # Train
