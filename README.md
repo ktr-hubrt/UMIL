@@ -37,6 +37,9 @@ TAD/
     ├─ normal/ 
         ...
 ```
+# Pre-trained model weights
+please find the model weights in the following:
+> [**k400 pre-trained weights**](https://smu-my.sharepoint.com/:u:/g/personal/huilyu_smu_edu_sg/ESDZwxBmIAdLqJBuDwhU-YIB1kn7MNEQ0CEGAkkUSwfPkA?e=7dpMd5)
 
 # Train
 The config files lie in `configs`. For example, to train X-CLIP-B/32 with 5 frames on UCF on 2 GPUs, you can run
