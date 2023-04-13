@@ -21,13 +21,13 @@ pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp
 Download the videos and labels for UCF-crime or TAD dataset and extract frames from videos.
 The dataset directory should be origanized as follows: 
 ```
-$ tree UCF
 UCF/
 ├─ frames/    
     ├─ Abuse/
        ├─ Abuse001_x264.mp4/
     ├─ Arrest/ 
     ...
+    
 TAD/
 ├─ frames/    
     ├─ abnormal/
