@@ -25,6 +25,7 @@ UCF/
 ├─ frames/    
     ├─ Abuse/
        ├─ Abuse001_x264.mp4/
+           ├─ img_00000000.jpg
     ├─ Arrest/ 
     ...
     
