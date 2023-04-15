@@ -37,6 +37,8 @@ TAD/
     ├─ normal/ 
         ...
 ```
+> [**TAD extracted frames**](https://smu-my.sharepoint.com/:f:/r/personal/huilyu_smu_edu_sg/Documents/UMIL/TAD?csf=1&web=1&e=HxzRqC)
+
 # Pre-trained model weights
 Please find the model weights in the following:
 > [**k400 pre-trained weights**](https://smu-my.sharepoint.com/:u:/g/personal/huilyu_smu_edu_sg/ESDZwxBmIAdLqJBuDwhU-YIB1kn7MNEQ0CEGAkkUSwfPkA?e=7dpMd5)
