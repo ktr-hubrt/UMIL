@@ -127,28 +127,9 @@ def main(config):
                 logger.info(f"Auc on epoch {epoch}: {auc_all:.4f}({auc_ano:.4f})")
                 logger.info(f'Max AUC@all {best_epoch}/{epoch} : {max_auc:.4f}')
 
-    is_best = False
     for epoch in range(start_epoch, config.TRAIN.EPOCHS):
         train_loader.sampler.set_epoch(epoch)
         train_one_epoch(epoch, model, optimizer, lr_scheduler, train_loader, text_labels, config)
-        # val
-        out_path = os.path.join(config.OUTPUT, 'ckpt_epoch_'+str(epoch)+'.pkl')
-        scores_dict = validate(val_loader, text_labels, model, config, out_path)
-
-        tmp_dict = {}
-        for v_name in scores_dict["prd"].keys():
-            p_scores = np.array(scores_dict["prd"][v_name]).copy()
-            if p_scores.shape[0] == 1:
-                # 1,32,2
-                tmp_dict[v_name] = [p_scores[0, :, 1]]
-            else:
-                # T,1,2
-                tmp_dict[v_name] = [p_scores[:, 0, 1]]
-        auc_all, auc_ano = evaluate_result(tmp_dict, config.DATA.VAL_FILE)
-        is_best = auc_all > max_auc
-        max_auc = max(max_auc, auc_all)
-        logger.info(f"Auc of the network on epoch {epoch}: {auc_all:.4f}({auc_ano:.4f})")
-        logger.info(f'Max AUC@all epoch {epoch} : {max_auc:.4f}')
 
         if dist.get_rank() == 0 and (epoch % config.SAVE_FREQ == 0 or epoch == (config.TRAIN.EPOCHS - 1)):
             epoch_saving(config, epoch, model.module, max_auc, optimizer, lr_scheduler,_,_, logger, config.OUTPUT, is_best)
