@@ -4,6 +4,30 @@ import math
 import torch.nn.functional as F
 import numpy as np
 
+class Normalize(nn.Module):
+    def __init__(self, power=2):
+        super(Normalize, self).__init__()
+        self.power = power
+
+    def forward(self, x):
+        norm = x.pow(self.power).sum(1, keepdim=True).pow(1. / self.power)
+        out = x.div(norm)
+        return out
+
+def reduce_dimension(features, mode='umap', dim=50):
+    if mode == 'pca':
+        from sklearn.decomposition import PCA
+        pca = PCA(n_components=dim)
+        transformed_features = pca.fit_transform(features)
+        fit_score = pca.explained_variance_ratio_.sum()
+    elif mode == 'umap':
+        import umap
+        fit = umap.UMAP(n_components=dim)
+        transformed_features = fit.fit_transform(features)
+        fit_score = 0.0
+    return transformed_features, fit_score
+
+
 def PairEnum(x,mask=None):
     # Enumerate all pairs of feature in x
     assert x.ndimension() == 2, 'Input dimension must be 2'
