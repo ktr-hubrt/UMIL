@@ -170,7 +170,7 @@ class XCLIP(CLIP):
 
             logits = torch.einsum("bd,bkd->bk", v_features, logit_scale * t_features)
             logits_u = torch.einsum("bd,bkd->bk", v_features_u, logit_scale * t_features)
-            logits_u_n = v_features_u_n
+            logits_u_n = torch.einsum("bd,bkd->bk", v_features_u_n, logit_scale * t_features)
 
             outputs=  {
                     "y": logits,
